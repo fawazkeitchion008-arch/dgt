@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveEspaña — Permis de Conduire en Ligne · Espagne & Europe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --b900:#060E1F;--b800:#0A1628;--b700:#0D2147;--b600:#0D47A1;
+  --b500:#1565C0;--b400:#1976D2;--b300:#1E88E5;--b200:#42A5F5;
+  --b100:#90CAF9;--b50:#E3F2FD;
+  --c400:#00838F;--c300:#0097A7;--c200:#00BCD4;
+  --white:#FFF;--off:#F0F5FF;--grey:#8A9BB5;
+  --dark:#060E1F;--text:#1E2A3A;--muted:#5A6A85;
+  --r:14px;--rs:8px;
+  --sh:0 8px 32px rgba(13,71,161,.13);
+  --shd:0 20px 60px rgba(13,71,161,.2);
+  --tr:all .3s cubic-bezier(.4,0,.2,1);
+  --F1:'Syne',sans-serif;--F2:'DM Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--F2);color:var(--text);background:var(--white);overflow-x:hidden;line-height:1.6}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+.W{max-width:1240px;margin:0 auto;padding:0 2rem}
+
+/* ── NAVBAR ── */
+.nav{position:fixed;inset:0 0 auto;z-index:999;padding:1.1rem 0;transition:var(--tr)}
+.nav.stuck{background:rgba(6,14,31,.97);backdrop-filter:blur(14px);box-shadow:0 2px 28px rgba(0,0,0,.4);padding:.75rem 0}
+.nav-inner{max-width:1240px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:.7rem;color:var(--white)}
+.logo-mark{width:40px;height:40px;background:var(--b500);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.logo-name{font-family:var(--F1);font-size:1.55rem;font-weight:800;letter-spacing:.5px;color:var(--white)}
+.logo-name em{color:var(--b200);font-style:normal}
+.nmenu{display:flex;align-items:center;gap:2rem}
+.nmenu a{color:rgba(255,255,255,.78);font-size:.9rem;font-weight:500;transition:var(--tr)}
+.nmenu a:hover{color:var(--white)}
+.nbtn{background:var(--b500)!important;color:var(--white)!important;padding:.55rem 1.4rem;border-radius:50px;font-weight:700!important;transition:var(--tr)!important}
+.nbtn:hover{background:var(--b300)!important;box-shadow:0 6px 22px rgba(21,101,192,.45)}
+.burg{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:4px;z-index:1001}
+.burg span{display:block;width:24px;height:2px;background:var(--white);border-radius:2px;transition:var(--tr)}
+
+/* ══════════════════════════════
+   HERO — SLIDER PLEIN ÉCRAN
+══════════════════════════════ */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--b900)}
+.hero-slides{position:absolute;inset:0;z-index:0}
+.hslide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;background-size:cover;background-position:center}
+.hslide.active{opacity:1;animation:kburn 9s ease-out both}
+@keyframes kburn{from{transform:scale(1.07)}to{transform:scale(1.0)}}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(to bottom,rgba(6,14,31,.45) 0%,rgba(6,14,31,.25) 35%,rgba(6,14,31,.75) 100%),linear-gradient(to right,rgba(6,14,31,.75) 0%,rgba(6,14,31,.3) 55%,transparent 100%)}
+.hero-dots{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:.6rem}
+.hdot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:var(--tr);border:none;padding:0}
+.hdot.on{background:var(--b200);width:26px;border-radius:50px}
+.hero-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:10;width:100%;display:flex;justify-content:space-between;padding:0 1.5rem;pointer-events:none}
+.hnav-btn{pointer-events:all;width:3.2rem;height:3.2rem;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:50%;color:var(--white);font-size:1.1rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center}
+.hnav-btn:hover{background:var(--b500);border-color:var(--b500)}
+.hslide-caption{position:absolute;bottom:4.2rem;right:2rem;z-index:10;background:rgba(6,14,31,.68);backdrop-filter:blur(10px);border:1px solid rgba(66,165,245,.3);border-radius:50px;padding:.4rem 1rem;color:rgba(255,255,255,.8);font-size:.75rem;font-weight:600;letter-spacing:.5px;opacity:0;transition:opacity .6s ease}
+.hslide-caption.show{opacity:1}
+.hero-left{position:relative;z-index:5;width:100%;max-width:1240px;margin:0 auto;padding:9rem 2rem 7rem;display:flex;flex-direction:column;align-items:flex-start}
+.hero-left .W2{max-width:620px}
+.h-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(66,165,245,.15);border:1px solid rgba(66,165,245,.35);color:var(--b200);padding:.4rem 1rem;border-radius:50px;font-size:.78rem;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:1.4rem;animation:up .7s ease both}
+.h-pill span{background:var(--b500);color:var(--white);padding:.15rem .5rem;border-radius:50px;font-size:.7rem}
+.hero-h1{font-family:var(--F1);font-weight:800;line-height:.92;margin-bottom:1.5rem;color:var(--white)}
+.hero-h1 .l1{display:block;font-size:clamp(2.5rem,7vw,4.8rem);animation:up .8s ease .1s both}
+.hero-h1 .l2{display:block;font-size:clamp(2.5rem,7vw,4.8rem);color:var(--b200);animation:up .8s ease .2s both}
+.hero-h1 .l3{display:block;font-size:clamp(1.3rem,2.4vw,2rem);color:rgba(255,255,255,.38);font-weight:600;margin-top:.5rem;animation:up .8s ease .3s both;letter-spacing:2.5px;text-transform:uppercase}
+.hero-sub{color:rgba(255,255,255,.75);font-size:1.05rem;line-height:1.85;max-width:520px;margin-bottom:2.2rem;animation:up .8s ease .4s both}
+.h-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:3rem;animation:up .8s ease .5s both}
+.cta1{background:var(--b500);color:var(--white);padding:.9rem 2rem;border-radius:50px;font-weight:700;font-size:.95rem;transition:var(--tr);display:flex;align-items:center;gap:.5rem}
+.cta1:hover{background:var(--b300);transform:translateY(-3px);box-shadow:0 14px 36px rgba(21,101,192,.55)}
+.cta2{border:2px solid rgba(255,255,255,.35);color:var(--white);padding:.9rem 2rem;border-radius:50px;font-weight:600;font-size:.95rem;transition:var(--tr)}
+.cta2:hover{border-color:var(--b200);background:rgba(66,165,245,.12);transform:translateY(-2px)}
+.h-stats{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;animation:up .8s ease .6s both;background:rgba(6,14,31,.5);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:1.2rem 2rem}
+.hst{display:flex;flex-direction:column;align-items:center}
+.hst-n{font-family:var(--F1);font-size:1.9rem;font-weight:800;color:var(--white);line-height:1}
+.hst-l{font-size:.65rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.8px;text-align:center;margin-top:.2rem}
+.hst-sep{width:1px;height:40px;background:rgba(255,255,255,.12)}
+
+/* ── TRUST BAR ── */
+.trust{background:var(--b700);padding:.9rem 0}
+.trust-in{max-width:1240px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.trust-lbl{color:rgba(255,255,255,.3);font-size:.72rem;text-transform:uppercase;letter-spacing:1.5px;white-space:nowrap}
+.trust-items{display:flex;gap:2rem;flex-wrap:wrap}
+.ti{color:rgba(255,255,255,.6);font-size:.85rem;font-weight:500}
+.ti:hover{color:var(--white)}
+
+/* ── SECTION COMMONS ── */
+.stag{display:inline-flex;align-items:center;gap:.4rem;background:var(--b50);color:var(--b500);border:1px solid rgba(21,101,192,.2);padding:.3rem .9rem;border-radius:50px;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.9rem}
+.sh{font-family:var(--F1);font-size:clamp(2rem,3.5vw,3rem);font-weight:800;color:var(--dark);line-height:1.05;margin-bottom:.9rem}
+.sh .ac{color:var(--b500)}
+.sdesc{color:var(--muted);font-size:1rem;line-height:1.8;max-width:580px}
+.sec-hd{text-align:center;margin-bottom:3.5rem}
+.sec-hd .sdesc{margin:0 auto}
+
+/* ── PHOTO BAND ── */
+.photoband{display:grid;grid-template-columns:repeat(4,1fr);height:220px;gap:0}
+.pb-item{position:relative;overflow:hidden}
+.pb-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.pb-item:hover img{transform:scale(1.08)}
+.pb-item::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(6,14,31,.65),transparent 50%)}
+.pb-caption{position:absolute;bottom:.8rem;left:0;right:0;text-align:center;color:var(--white);font-size:.78rem;font-weight:600;z-index:2;letter-spacing:.5px}
+
+/* ── GALERIE SCROLL ── */
+.gal{padding:3rem 0;background:var(--b900);overflow:hidden}
+.gal-hd{text-align:center;padding:0 2rem 2rem;color:var(--white)}
+.gal-hd h2{font-family:var(--F1);font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800}
+.gal-hd h2 em{color:var(--b200);font-style:normal}
+.gal-strip{overflow:hidden;position:relative}
+.gal-strip::before,.gal-strip::after{content:'';position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none}
+.gal-strip::before{left:0;background:linear-gradient(90deg,var(--b900),transparent)}
+.gal-strip::after{right:0;background:linear-gradient(-90deg,var(--b900),transparent)}
+.gal-track{display:flex;gap:10px;animation:gscroll 38s linear infinite;width:max-content}
+.gal-track img{width:280px;height:185px;object-fit:cover;border-radius:var(--rs);flex-shrink:0;opacity:.8;transition:var(--tr)}
+.gal-track img:hover{opacity:1;transform:scale(1.04)}
+@keyframes gscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── EXAMENS ── */
+.exam-section{padding:5rem 0;background:var(--white)}
+.exam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem}
+.ec{border-radius:var(--r);overflow:hidden;box-shadow:var(--sh);transition:var(--tr);border:1.5px solid rgba(21,101,192,.08)}
+.ec:hover{transform:translateY(-6px);box-shadow:var(--shd)}
+.ec-img{height:175px;overflow:hidden;position:relative}
+.ec-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.ec:hover .ec-img img{transform:scale(1.08)}
+.ec-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(6,14,31,.75),transparent)}
+.ec-type{position:absolute;top:1rem;left:1rem;background:var(--b500);color:var(--white);padding:.28rem .75rem;border-radius:50px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;z-index:2}
+.ec-body{padding:1.4rem}
+.ec-body h3{font-family:var(--F1);font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:.4rem}
+.ec-body p{font-size:.85rem;color:var(--muted);line-height:1.7;margin-bottom:.9rem}
+.ec-stats{display:flex;gap:1.2rem}
+.ec-st strong{font-family:var(--F1);font-size:1.1rem;color:var(--b500);font-weight:800;display:block}
+.ec-st span{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+
+/* ── PORTAIL DGT ── */
+.dgt-section{padding:5rem 0;background:linear-gradient(135deg,var(--b900),var(--b800))}
+.dgt-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:4rem;align-items:center}
+.dgt-txt h2{font-family:var(--F1);font-size:clamp(1.9rem,3vw,2.7rem);font-weight:800;color:var(--white);margin-bottom:.9rem}
+.dgt-txt h2 em{color:var(--b200);font-style:normal}
+.dgt-txt>p{color:rgba(255,255,255,.6);font-size:.92rem;line-height:1.8;margin-bottom:1.4rem}
+.dgt-steps{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.8rem}
+.ds{display:flex;align-items:center;gap:.75rem;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:var(--rs);padding:.85rem 1rem}
+.dsn{width:1.7rem;height:1.7rem;border-radius:50%;background:var(--b400);color:var(--white);font-family:var(--F1);font-size:.78rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ds p{color:rgba(255,255,255,.7);font-size:.85rem;margin:0}
+.ds p strong{color:var(--white)}
+.dgt-vis{display:flex;flex-direction:column;gap:.9rem}
+.dgt-vis img{border-radius:var(--r);box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.dgt-badge{background:rgba(6,14,31,.85);backdrop-filter:blur(10px);border:1px solid rgba(66,165,245,.3);border-radius:var(--rs);padding:.9rem 1.1rem}
+.dgt-badge strong{display:block;font-family:var(--F1);font-size:1.1rem;color:var(--b200)}
+.dgt-badge span{font-size:.72rem;color:rgba(255,255,255,.4)}
+
+/* ── FAQ ── */
+.faq-section{padding:5rem 0;background:var(--white)}
+.faq-inner{max-width:780px;margin:0 auto}
+.fq{border-bottom:1px solid rgba(21,101,192,.1)}
+.fq-q{width:100%;background:none;border:none;padding:1.2rem 0;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:1rem;cursor:pointer;font-family:var(--F2);font-size:.95rem;font-weight:600;color:var(--dark);transition:var(--tr)}
+.fq-q:hover{color:var(--b500)}
+.fq-arr{width:1.8rem;height:1.8rem;border-radius:50%;background:var(--b50);color:var(--b500);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0;transition:var(--tr)}
+.fq.open .fq-arr{background:var(--b500);color:var(--white);transform:rotate(180deg)}
+.fq-a{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease}
+.fq.open .fq-a{max-height:300px;padding-bottom:1.2rem}
+.fq-a p{font-size:.88rem;color:var(--muted);line-height:1.8}
+.fq-a strong{color:var(--dark)}
+
+/* ── TÉMOIGNAGES ── */
+.testi-section{padding:5rem 0;background:var(--off)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.tc{background:var(--white);border-radius:var(--r);padding:1.7rem;box-shadow:var(--sh);border:1px solid rgba(21,101,192,.07);transition:var(--tr)}
+.tc:hover{transform:translateY(-4px);box-shadow:var(--shd)}
+.tc-hd{display:flex;align-items:center;gap:.85rem;margin-bottom:.9rem}
+.tc-av{width:2.7rem;height:2.7rem;border-radius:50%;background:var(--b500);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0}
+.tc-info strong{display:block;color:var(--dark);font-size:.92rem}
+.tc-info small{color:var(--muted);font-size:.76rem}
+.tc-p{font-size:.72rem;background:var(--b50);color:var(--b500);padding:.12rem .5rem;border-radius:4px;font-weight:600;display:inline-block;margin-top:.2rem}
+.tc-stars{margin-bottom:.8rem;font-size:.8rem;letter-spacing:.1rem}
+.tc p{font-size:.86rem;color:var(--text);line-height:1.75;font-style:italic}
+
+/* ══ VIDÉOS TÉMOIGNAGES ══ */
+.vtesti-section{padding:5rem 0;background:var(--b900);position:relative;overflow:hidden}
+.vtesti-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(21,101,192,.18),transparent 70%);pointer-events:none}
+.vtesti-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:1rem}
+.vt-card{position:relative;border-radius:var(--r);overflow:hidden;background:rgba(255,255,255,.04);border:1.5px solid rgba(66,165,245,.15);box-shadow:0 20px 60px rgba(0,0,0,.4);transition:var(--tr)}
+.vt-card:hover{border-color:rgba(66,165,245,.4);transform:translateY(-5px);box-shadow:0 30px 80px rgba(0,0,0,.5)}
+.vt-placeholder{position:relative;width:100%;aspect-ratio:16/9;background:linear-gradient(135deg,var(--b800),var(--b700));display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}
+.vt-placeholder::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(21,101,192,.12),rgba(0,0,0,.3));z-index:1}
+.vt-placeholder-icon{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:1rem;text-align:center;padding:2rem}
+.vt-play-ring{width:5rem;height:5rem;border-radius:50%;border:2.5px solid rgba(66,165,245,.6);display:flex;align-items:center;justify-content:center;background:rgba(21,101,192,.25);backdrop-filter:blur(8px);transition:var(--tr);position:relative}
+.vt-play-ring::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(66,165,245,.2);animation:vt-pulse 2s ease-in-out infinite}
+@keyframes vt-pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.5}}
+.vt-play-ring svg{width:1.8rem;height:1.8rem;fill:var(--white);margin-left:4px}
+.vt-placeholder:hover .vt-play-ring{background:var(--b500);border-color:var(--b300);transform:scale(1.08)}
+.vt-placeholder-text{color:rgba(255,255,255,.55);font-size:.82rem;font-weight:500;letter-spacing:.3px}
+.vt-placeholder-text strong{display:block;color:rgba(255,255,255,.35);font-size:.7rem;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.2rem}
+/* État : vidéo chargée */
+.vt-video-wrap{position:relative;width:100%;aspect-ratio:16/9;display:none}
+.vt-video-wrap iframe,.vt-video-wrap video{width:100%;height:100%;border:none;display:block}
+.vt-card.has-video .vt-placeholder{display:none}
+.vt-card.has-video .vt-video-wrap{display:block}
+/* Pied de carte */
+.vt-footer{padding:1.2rem 1.4rem;display:flex;align-items:center;gap:.9rem}
+.vt-avatar{width:2.6rem;height:2.6rem;border-radius:50%;background:var(--b500);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0;font-family:var(--F1)}
+.vt-meta strong{display:block;color:var(--white);font-size:.9rem;font-weight:600}
+.vt-meta small{color:rgba(255,255,255,.4);font-size:.75rem}
+.vt-stars{margin-left:auto;font-size:.8rem;letter-spacing:.05rem}
+.vt-change-btn{display:block;width:calc(100% - 2.8rem);margin:0 1.4rem 1.2rem;text-align:center;background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.1);border-radius:50px;padding:.45rem 1rem;font-size:.75rem;font-weight:600;cursor:pointer;transition:var(--tr)}
+.vt-change-btn:hover{background:rgba(21,101,192,.3);color:var(--white);border-color:rgba(66,165,245,.3)}
+@media(max-width:768px){.vtesti-grid{grid-template-columns:1fr}}
+
+/* ── CONTACT ── */
+.contact-section{padding:5rem 0;background:var(--white)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:4rem;align-items:flex-start}
+.ci-inf>p{color:var(--muted);margin-bottom:1.8rem;line-height:1.8;font-size:.95rem}
+.ci-dets{display:flex;flex-direction:column;gap:1.1rem;margin-bottom:1.8rem}
+.cir{display:flex;align-items:flex-start;gap:.9rem}
+.cico{width:2.4rem;height:2.4rem;background:var(--b50);border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.cir div{display:flex;flex-direction:column;gap:.1rem}
+.cir strong{font-size:.75rem;text-transform:uppercase;letter-spacing:1px;color:var(--muted)}
+.cir a,.cir span{color:var(--text);font-weight:500;font-size:.9rem}
+.cir a:hover{color:var(--b500)}
+.ci-img{border-radius:var(--r);overflow:hidden;height:170px}
+.ci-img img{width:100%;height:100%;object-fit:cover}
+.form-box{background:var(--off);border-radius:var(--r);padding:2.2rem}
+.form-box h3{font-family:var(--F1);font-size:1.4rem;color:var(--dark);margin-bottom:.25rem}
+.form-box>p{color:var(--muted);font-size:.83rem;margin-bottom:1.4rem}
+.form-box form{display:flex;flex-direction:column;gap:1rem}
+.fg{display:flex;flex-direction:column;gap:.35rem}
+.fg label{font-size:.8rem;font-weight:600;color:var(--text)}
+.fg input,.fg select,.fg textarea{padding:.8rem 1rem;border:1.5px solid rgba(21,101,192,.12);border-radius:var(--rs);font-family:var(--F2);font-size:.9rem;color:var(--text);background:var(--white);transition:var(--tr);outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--b500);box-shadow:0 0 0 3px rgba(21,101,192,.1)}
+.fg textarea{resize:vertical;min-height:100px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fsub{display:flex;align-items:center;justify-content:center;gap:.6rem;background:var(--b500);color:var(--white);border:none;padding:.9rem;border-radius:50px;font-family:var(--F2);font-size:.92rem;font-weight:700;cursor:pointer;transition:var(--tr)}
+.fsub:hover{background:var(--b300);transform:translateY(-2px);box-shadow:0 10px 28px rgba(21,101,192,.35)}
+.farr{transition:var(--tr)}.fsub:hover .farr{transform:translateX(4px)}
+.f-ok{display:none;background:#d0e8ff;border:1px solid var(--b100);border-radius:var(--rs);padding:1rem;margin-top:.8rem;color:var(--b600);font-size:.88rem;font-weight:600}
+
+/* ── FOOTER ── */
+.footer{background:var(--b900)}
+.ft{padding:3.5rem 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.fg-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
+.flogo{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+.flogo .logo-mark{width:32px;height:32px;font-size:1rem}
+.flogo .logo-name{font-size:1.25rem}
+.fg-brand p{color:rgba(255,255,255,.38);font-size:.85rem;line-height:1.7;margin-bottom:1.2rem}
+.fsocs{display:flex;gap:.5rem}
+.fsoc{background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);width:2.1rem;height:2.1rem;border-radius:var(--rs);display:flex;align-items:center;justify-content:center;font-size:.82rem;transition:var(--tr)}
+.fsoc:hover{background:var(--b500);color:var(--white)}
+.fc h4{color:var(--white);font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:1rem}
+.fc ul li{margin-bottom:.5rem}
+.fc ul li a{color:rgba(255,255,255,.4);font-size:.85rem;transition:var(--tr)}
+.fc ul li a:hover{color:var(--white);padding-left:3px}
+.fb{padding:1.1rem 0}
+.fb .W{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.fb span{color:rgba(255,255,255,.22);font-size:.75rem}
+
+/* ── MODAL ── */
+.mbg{position:fixed;inset:0;background:rgba(6,14,31,.88);backdrop-filter:blur(7px);z-index:2000;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;visibility:hidden;transition:var(--tr)}
+.mbg.on{opacity:1;visibility:visible}
+.mbox{background:var(--white);border-radius:var(--r);padding:2.4rem;max-width:490px;width:100%;position:relative;transform:translateY(22px);transition:var(--tr)}
+.mbg.on .mbox{transform:translateY(0)}
+.mclose{position:absolute;top:.85rem;right:.85rem;background:rgba(0,0,0,.07);border:none;width:2rem;height:2rem;border-radius:50%;cursor:pointer;font-size:.95rem;transition:var(--tr)}
+.mclose:hover{background:var(--b500);color:var(--white)}
+
+/* ── SCROLL TOP ── */
+.stb{position:fixed;bottom:2rem;right:2rem;width:2.8rem;height:2.8rem;background:var(--b500);color:var(--white);border:none;border-radius:50%;cursor:pointer;z-index:400;opacity:0;transform:translateY(14px);transition:var(--tr);font-size:1.1rem;box-shadow:0 6px 20px rgba(21,101,192,.4)}
+.stb.on{opacity:1;transform:translateY(0)}
+.stb:hover{background:var(--b300);transform:translateY(-3px)}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.rv.vis{opacity:1;transform:translateY(0)}
+
+/* ── ANIMATIONS ── */
+@keyframes up{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+/* ══════════════════════════════
+   FORMULAIRE D'ENREGISTREMENT
+══════════════════════════════ */
+.reg-section{padding:5rem 0;background:var(--off)}
+.reg-layout{display:flex;flex-direction:column;gap:2rem}
+.reg-card{background:var(--white);border-radius:var(--r);box-shadow:var(--shd);border:1.5px solid rgba(21,101,192,.09);overflow:hidden;transition:var(--tr)}
+.reg-card:hover{border-color:rgba(21,101,192,.22)}
+.reg-card-head{background:linear-gradient(135deg,var(--b800),var(--b700));padding:1.4rem 1.8rem;display:flex;align-items:center;gap:1rem}
+.rch-icon{font-size:1.8rem;width:3rem;height:3rem;background:rgba(255,255,255,.1);border-radius:var(--rs);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.reg-card-head h3{font-family:var(--F1);font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:.15rem}
+.reg-card-head p{color:rgba(255,255,255,.5);font-size:.8rem;margin:0}
+.rch-num{margin-left:auto;flex-shrink:0;font-family:var(--F1);font-size:3rem;font-weight:800;color:rgba(255,255,255,.08);line-height:1}
+.reg-card-body{padding:1.8rem}
+.lic-list{display:flex;flex-direction:column;gap:4px;margin-bottom:14px}
+.lic-row{display:grid;grid-template-columns:2rem 1fr auto 1.4rem;align-items:center;gap:10px;padding:7px 12px;border-radius:var(--rs);border:1.5px solid rgba(21,101,192,.1);background:var(--white);cursor:pointer;transition:var(--tr)}
+.lic-row:hover{background:var(--off);border-color:rgba(21,101,192,.28)}
+.lic-row.selected{border-color:var(--b500);background:var(--b50);box-shadow:0 0 0 3px rgba(21,101,192,.1)}
+.lic-ico{font-size:1.05rem;text-align:center;line-height:1}
+.lic-name b{display:block;font-size:.88rem;font-weight:700;color:var(--dark)}
+.lic-name small{font-size:.72rem;color:var(--muted);font-weight:400}
+.lic-price{font-size:.82rem;font-weight:600;color:var(--muted);text-align:right;white-space:nowrap}
+.lic-row.selected .lic-price{color:var(--b600)}
+.lic-check{width:1.3rem;height:1.3rem;border-radius:50%;border:1.5px solid rgba(21,101,192,.25);background:var(--off);display:flex;align-items:center;justify-content:center;font-size:.65rem;color:transparent;flex-shrink:0;transition:var(--tr)}
+.lic-row.selected .lic-check{background:var(--b500);border-color:var(--b500);color:var(--white)}
+.lic-notif{background:linear-gradient(135deg,var(--b800),var(--b700));border-radius:var(--r);padding:1.1rem 1.3rem;animation:up .4s ease both}
+.ln-header{display:flex;align-items:center;gap:.9rem;margin-bottom:.9rem}
+.ln-ico{font-size:1.6rem;flex-shrink:0}
+.ln-header div{flex:1}
+.ln-header strong{display:block;color:var(--white);font-family:var(--F1);font-size:1rem;font-weight:700}
+.ln-header span{color:rgba(255,255,255,.5);font-size:.75rem}
+.ln-total{font-family:var(--F1);font-size:1.8rem;font-weight:800;color:var(--b200);white-space:nowrap}
+.ln-tranches{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.ln-tranche{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:var(--rs);padding:.7rem .9rem}
+.ln-tranche label{display:block;color:rgba(255,255,255,.45);font-size:.66rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.25rem}
+.ln-tranche strong{font-family:var(--F1);font-size:1.25rem;font-weight:800;color:var(--white)}
+.ln-tranche small{display:block;color:rgba(255,255,255,.4);font-size:.67rem;margin-top:.1rem}
+.ln-tranche.single{grid-column:1/-1;background:rgba(30,136,229,.15);border-color:rgba(30,136,229,.3)}
+.ln-tranche.single strong{color:var(--b200)}
+.doc-inline-block{display:flex;flex-direction:column;gap:.4rem;margin-bottom:.8rem}
+.dib-row{display:flex;align-items:center;gap:.75rem;background:var(--off);border:1.5px solid rgba(21,101,192,.09);border-radius:var(--rs);padding:.55rem .9rem;transition:var(--tr)}
+.dib-row:hover{border-color:rgba(21,101,192,.28);background:var(--b50)}
+.dib-row.done{border-color:var(--b400);background:var(--b50)}
+.dib-ico{font-size:1rem;flex-shrink:0}
+.dib-info{flex:1;min-width:0}
+.dib-info strong{display:block;font-size:.82rem;font-weight:600;color:var(--dark);line-height:1.2}
+.dib-info span{font-size:.7rem;color:var(--muted)}
+.dib-status{font-size:.67rem;font-weight:700;white-space:nowrap;flex-shrink:0;padding:.15rem .55rem;border-radius:50px;background:rgba(255,152,0,.1);color:#b45309;transition:var(--tr)}
+.dib-row.done .dib-status{background:rgba(21,101,192,.12);color:var(--b600)}
+.dib-btn{display:inline-flex;align-items:center;gap:.25rem;background:var(--b500);color:var(--white);padding:.35rem .85rem;border-radius:50px;font-size:.73rem;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap;flex-shrink:0}
+.dib-btn:hover{background:var(--b300)}
+.dib-row.done .dib-btn{background:var(--b600)}
+.dib-row input[type=file]{display:none}
+.dib-filename{font-size:.7rem;color:var(--b500);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px;flex-shrink:0}
+.reg-form{display:flex;flex-direction:column;gap:1rem}
+.rf-section-title{font-family:var(--F1);font-size:.85rem;font-weight:700;color:var(--b500);text-transform:uppercase;letter-spacing:1.5px;padding-bottom:.5rem;border-bottom:2px solid var(--b50);margin-top:.5rem}
+.rf-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.rf-group{display:flex;flex-direction:column;gap:.35rem}
+.rf-full{grid-column:1/-1}
+.rf-group label{font-size:.8rem;font-weight:600;color:var(--text)}
+.req{color:#e53935;font-size:.75rem}
+.rf-group input,.rf-group select,.rf-group textarea{padding:.8rem 1rem;border:1.5px solid rgba(21,101,192,.12);border-radius:var(--rs);font-family:var(--F2);font-size:.9rem;color:var(--text);background:var(--white);transition:var(--tr);outline:none}
+.rf-group input:focus,.rf-group select:focus{border-color:var(--b500);box-shadow:0 0 0 3px rgba(21,101,192,.1)}
+.rf-group input::placeholder{color:#bbb}
+.rf-recap{background:var(--off);border:1.5px solid rgba(21,101,192,.15);border-radius:var(--r);padding:1.2rem 1.4rem;display:flex;flex-direction:column;gap:.6rem;animation:up .3s ease both}
+.rfr-title{font-family:var(--F1);font-size:.9rem;font-weight:700;color:var(--b500);margin-bottom:.2rem;text-transform:uppercase;letter-spacing:1px}
+.rfr-row{display:flex;align-items:center;justify-content:space-between;font-size:.88rem}
+.rfr-row span{color:var(--muted)}
+.rfr-row strong{color:var(--dark);font-weight:700}
+.rf-check-label{display:flex;align-items:flex-start;gap:.6rem;cursor:pointer;font-size:.82rem;color:var(--muted)}
+.rf-check-label input{margin-top:2px;accent-color:var(--b500);flex-shrink:0}
+.rf-link{color:var(--b500);font-weight:600}
+.rf-submit{display:flex;align-items:center;justify-content:center;gap:.7rem;background:linear-gradient(135deg,var(--b600),var(--b400));color:var(--white);border:none;padding:1rem 2rem;border-radius:50px;font-family:var(--F2);font-size:1rem;font-weight:700;cursor:pointer;transition:var(--tr);box-shadow:0 8px 24px rgba(21,101,192,.35);letter-spacing:.3px}
+.rf-submit:hover{transform:translateY(-3px);box-shadow:0 14px 36px rgba(21,101,192,.5)}
+.rf-btn-arrow{transition:var(--tr)}.rf-submit:hover .rf-btn-arrow{transform:translateX(5px)}
+.rf-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.rf-success{background:linear-gradient(135deg,var(--b800),var(--b700));border-radius:var(--r);padding:2rem;text-align:center;animation:up .4s ease both}
+.rfs-icon{font-size:3rem;margin-bottom:.8rem}
+.rf-success h4{font-family:var(--F1);font-size:1.5rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.rf-success p{color:rgba(255,255,255,.65);font-size:.88rem;line-height:1.7}
+.rf-success strong{color:var(--white)}
+
+/* ══════════════════════════════
+   TABLEAU RENDEZ-VOUS
+══════════════════════════════ */
+.rdv-section{padding:5rem 0;background:var(--white)}
+.rdv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;align-items:stretch}
+.rdv-card{border-radius:var(--r);overflow:hidden;border:1.5px solid rgba(21,101,192,.12);box-shadow:var(--sh);transition:var(--tr);display:flex;flex-direction:column;position:relative}
+.rdv-card:hover{transform:translateY(-6px);box-shadow:var(--shd);border-color:var(--b300)}
+.rdv-badge-top{position:absolute;top:-1rem;left:50%;transform:translateX(-50%);background:var(--b400);color:var(--white);padding:.28rem 1.1rem;border-radius:50px;font-size:.72rem;font-weight:700;white-space:nowrap;z-index:2}
+.rdv-head{padding:1.6rem 1.8rem 1.4rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center}
+.rdv-head--ord{background:linear-gradient(135deg,#1A2340,#0D2147)}
+.rdv-head--priv{background:linear-gradient(135deg,var(--b700),var(--b500))}
+.rdv-head--prem{background:linear-gradient(135deg,#1a1a2e,#16213e)}
+.rdv-head-icon{width:3rem;height:3rem;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:.2rem}
+.rdv-head h3{font-family:var(--F1);font-size:1.5rem;font-weight:800;color:var(--white);letter-spacing:1px}
+.rdv-head p{color:rgba(255,255,255,.5);font-size:.8rem}
+.rdv-card--featured .rdv-head h3{color:var(--b200)}
+.rdv-card--premium .rdv-head h3{color:#e2c97e}
+.rdv-card--premium .rdv-head-icon{background:rgba(226,201,126,.15)}
+.rdv-body{flex:1;display:flex;flex-direction:column;background:var(--white)}
+.rdv-row{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:1rem;padding:.95rem 1.5rem;border-bottom:1px solid rgba(21,101,192,.07);transition:var(--tr)}
+.rdv-row:hover{background:var(--b50)}
+.rdv-row--last{border-bottom:none}
+.rdv-duration{display:flex;align-items:center;gap:.5rem}
+.rdv-dur-icon{font-size:.9rem;opacity:.5}
+.rdv-duration strong{font-size:.9rem;font-weight:600;color:var(--text)}
+.rdv-price{font-family:var(--F1);font-size:1.4rem;font-weight:800;color:var(--b600);white-space:nowrap;text-align:right}
+.rdv-price span{font-family:var(--F2);font-size:.85rem;font-weight:600;color:var(--muted)}
+.rdv-price--feat{color:var(--b500)}
+.rdv-price--prem{color:#b8972e}
+.rdv-btn{background:transparent;border:1.5px solid rgba(21,101,192,.25);color:var(--b600);padding:.42rem 1rem;border-radius:50px;font-family:var(--F2);font-size:.78rem;font-weight:700;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.rdv-btn:hover{background:var(--b500);border-color:var(--b500);color:var(--white);transform:scale(1.04)}
+.rdv-btn--feat{border-color:var(--b400);color:var(--b500)}
+.rdv-btn--feat:hover{background:var(--b500);border-color:var(--b500);color:var(--white)}
+.rdv-btn--prem{border-color:rgba(184,151,46,.35);color:#b8972e}
+.rdv-btn--prem:hover{background:#b8972e;border-color:#b8972e;color:var(--white)}
+.rdv-card--featured{border-color:var(--b500);box-shadow:0 12px 40px rgba(21,101,192,.2)}
+.rdv-card--premium{border-color:rgba(184,151,46,.3)}
+.rdv-modal-bg{position:fixed;inset:0;background:rgba(6,14,31,.85);backdrop-filter:blur(7px);z-index:3000;display:flex;align-items:center;justify-content:center;padding:1.5rem;opacity:0;visibility:hidden;transition:var(--tr)}
+.rdv-modal-bg.on{opacity:1;visibility:visible}
+.rdv-modal-box{background:var(--white);border-radius:var(--r);padding:2.4rem;max-width:480px;width:100%;position:relative;transform:translateY(20px);transition:var(--tr)}
+.rdv-modal-bg.on .rdv-modal-box{transform:translateY(0)}
+.rdv-mclose{position:absolute;top:.85rem;right:.85rem;background:rgba(0,0,0,.07);border:none;width:2rem;height:2rem;border-radius:50%;cursor:pointer;font-size:.95rem;transition:var(--tr)}
+.rdv-mclose:hover{background:var(--b500);color:var(--white)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.dgt-grid,.contact-grid,.exam-grid,.testi-grid{grid-template-columns:1fr}.fg-grid{grid-template-columns:1fr 1fr}.photoband{grid-template-columns:repeat(2,1fr);height:300px}.rdv-grid{grid-template-columns:1fr}}
+@media(max-width:768px){.nmenu{display:none;position:fixed;inset:0 0 0 auto;width:280px;background:var(--b900);flex-direction:column;justify-content:center;padding:2rem;transform:translateX(100%);transition:transform .35s ease;z-index:1000}.nmenu.on{display:flex;transform:translateX(0)}.burg{display:flex}.frow{grid-template-columns:1fr}.photoband{grid-template-columns:1fr 1fr;height:240px}.h-stats{gap:1rem}.rf-row{grid-template-columns:1fr}.ln-tranches{grid-template-columns:1fr}.ln-tranche.single{grid-column:1}.rdv-row{grid-template-columns:1fr auto}.rdv-btn{display:none}.dib-info span,.dib-filename{display:none}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVBAR ═══ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">🚦</div>
+      <span class="logo-name">DGT<em>España</em></span>
+    </a>
+    <ul class="nmenu" id="nmenu">
+      <li><a href="#procedure">Procédure</a></li>
+      <li><a href="#examens">Examens</a></li>
+      <li><a href="#dgt">Portail DGT</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#contact" class="nbtn">Commencer →</a></li>
+    </ul>
+    <button class="burg" id="burg" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="hero">
+  <div class="hero-slides">
+    <div class="hslide active" style="background-image:url('1.jpg');background-position:center 25%"></div>
+    <div class="hslide" style="background-image:url('2.jpg');background-position:center 30%"></div>
+    <div class="hslide" style="background-image:url('3.jpg');background-position:center 20%"></div>
+    <div class="hslide" style="background-image:url('4.jpg');background-position:center 40%"></div>
+    <div class="hslide" style="background-image:url('5.jpg');background-position:center 30%"></div>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-nav">
+    <button class="hnav-btn" id="hPrev" aria-label="Précédent">&#8592;</button>
+    <button class="hnav-btn" id="hNext" aria-label="Suivant">&#8594;</button>
+  </div>
+  <div class="hslide-caption show" id="hCaption">👩 Permis espagnol obtenu avec DriveEspaña</div>
+  <div class="hero-dots" id="hDots"></div>
+  <div class="hero-left">
+    <div class="W2">
+      <div class="h-pill"><span>OFFICIEL</span> DGT Espagne · Procédure 100% en ligne</div>
+      <h1 class="hero-h1">
+        <span class="l1">PERMIS </span>
+        <span class="l2">EN LIGNE</span>
+        <span class="l3">ESPAGNE</span>
+      </h1>
+      <p class="hero-sub">Obtenez votre permis espagnol sans vous déplacer. Inscription DGT, formation théorique, réservation d'examen — tout géré en ligne par notre équipe.</p>
+      <div class="h-ctas">
+        <a href="#procedure" class="cta1">📋 Voir la procédure complète</a>
+        <a href="#contact" class="cta2">Consultation gratuite</a>
+      </div>
+      <div class="h-stats">
+        <div class="hst"><span class="hst-n">15 000+</span><span class="hst-l">Permis délivrés</span></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><span class="hst-n">97%</span><span class="hst-l">Réussite 1er passage</span></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><span class="hst-n">4–8 sem.</span><span class="hst-l">Délai moyen</span></div>
+        <div class="hst-sep"></div>
+        <div class="hst"><span class="hst-n">27</span><span class="hst-l">Pays UE valide</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BANDE PHOTOS ═══ -->
+<div class="photoband">
+  <div class="pb-item"><img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=700&q=80" alt="Examen théorique DGT"><div class="pb-caption">📝 Examen Théorique DGT</div></div>
+  <div class="pb-item"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=700&q=80" alt="Documents officiels permis"><div class="pb-caption">📋 Dossier DGT Officiel</div></div>
+  <div class="pb-item"><img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=700&q=80" alt="Conduite en Espagne"><div class="pb-caption">🇪🇸 Conduite en Espagne</div></div>
+  <div class="pb-item"><img src="https://images.unsplash.com/photo-1567099537027-56cef8a15020?w=700&q=80" alt="Permis obtenu certification"><div class="pb-caption">🏆 Permis Certifié UE</div></div>
+</div>
+
+<!-- ═══ TRUST BAR ═══ -->
+<div class="trust">
+  <div class="trust-in">
+    <span class="trust-lbl">Reconnu par</span>
+    <div class="trust-items">
+      <div class="ti">🏛️ DGT Espagne Officiel</div>
+      <div class="ti">🇪🇺 Directive EU 2006/126/CE</div>
+      <div class="ti">🔒 Sede Electrónica Certifiée</div>
+      <div class="ti">⭐ 4.9/5 Google · 3 200 avis</div>
+      <div class="ti">📋 ISO 9001:2015</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FORMULAIRE D'ENREGISTREMENT ═══ -->
+<section class="reg-section" id="procedure">
+<div class="W">
+  <div class="sec-hd rv">
+    <div class="stag">📋 Inscription en ligne</div>
+    <h2 class="sh">Formulaire d'<span class="ac">enregistrement</span></h2>
+    <p class="sdesc">Remplissez les deux cadres ci-dessous pour initier votre demande de permis. Notre équipe traite votre dossier sous 24h.</p>
+  </div>
+  <div class="reg-layout">
+
+    <!-- CADRE 1 : SÉLECTION LICENCE -->
+    <div class="reg-card rv" id="card-licence">
+      <div class="reg-card-head">
+        <div class="rch-icon">🚗</div>
+        <div><h3>Sélectionner votre licence</h3><p>Choisissez la catégorie qui correspond à votre besoin</p></div>
+        <div class="rch-num">1</div>
+      </div>
+    <div class="reg-card-body">
+  <div class="rf-group" style="margin-bottom:1rem">
+    <label style="font-size:.8rem;font-weight:600;color:var(--text)">
+      Type de permis <span class="req">*</span>
+    </label>
+    <div style="position:relative">
+      <select id="licDropdown" onchange="onLicChange()" 
+        style="width:100%;padding:.8rem 2.8rem .8rem 1rem;border:1.5px solid rgba(21,101,192,.12);
+               border-radius:var(--rs);font-family:var(--F2);font-size:.9rem;color:var(--text);
+               background:var(--white);appearance:none;-webkit-appearance:none;cursor:pointer;outline:none">
+        <option value="">-- Choisir une licence --</option>
+        <option value="AM|175|1|Licence AM — Cyclomoteur|🛵">🛵  AM — Cyclomoteur · 175 €</option>
+        <option value="A1|205.60|1|Licence A1 — Moto légère|🏍️">🏍️  A1 — Moto légère · 205,60 €</option>
+        <option value="A2|198|1|Licence A2 — Moto intermédiaire|🏍️">🏍️  A2 — Moto intermédiaire · 198 €</option>
+        <option value="B|660|2|Licence B — Voiture|🚗">🚗  B — Voiture · 660 €</option>
+        <option value="B1|360|2|Licence B1 — Quadricycle léger|🚙">🚙  B1 — Quadricycle léger · 360 €</option>
+        <option value="C|670|2|Licence C — Poids lourd|🚛">🚛  C — Poids lourd · 670 €</option>
+        <option value="CE|780.20|2|Licence C+E — PL + remorque|🚚">🚚  C+E — PL + remorque · 780,20 €</option>
+        <option value="D|820|2|Licence D — Bus / Car|🚌">🚌  D — Bus / Car · 820 €</option>
+        <option value="CAP|825.91|2|Licence CAP — Transport professionnel|📋">📋  CAP — Transport professionnel · 825,91 €</option>
+        <option value="DUP|560|2|Duplicata moto + voiture|🔄">🔄  Duplicata — Moto + Voiture · 560 €</option>
+      </select>
+      <span style="position:absolute;right:12px;top:50%;transform:translateY(-50%);
+                   pointer-events:none;color:var(--muted)">▾</span>
+    </div>
+  </div>
+  <div class="lic-notif" id="licNotif" style="display:none">
+    <div class="ln-header">
+      <span class="ln-ico" id="lnIco"></span>
+      <div><strong id="lnLabel"></strong><span id="lnSub">Coût total d'établissement</span></div>
+      <div class="ln-total" id="lnTotal"></div>
+    </div>
+    <div class="ln-tranches" id="lnTranches"></div>
+  </div>
+</div>
+
+    <!-- CADRE 2 : INFOS PERSONNELLES -->
+    <div class="reg-card rv" id="card-infos">
+      <div class="reg-card-head">
+        <div class="rch-icon">👤</div>
+        <div><h3>Informations personnelles</h3><p>Remplissez tous les champs avec vos informations exactes</p></div>
+        <div class="rch-num">2</div>
+      </div>
+      <div class="reg-card-body">
+        <form class="reg-form" id="regForm" onsubmit="submitReg(event)">
+          <div class="rf-section-title">📎 Documents à fournir</div>
+          <div class="doc-inline-block">
+            <div class="dib-row" id="dib-cni"><span class="dib-ico">🪪</span><div class="dib-info"><strong>CNI / Passeport <span class="req">*</span></strong><span>Recto-verso · PDF/JPG</span></div><div class="dib-status" id="badge-cni">À joindre</div><label class="dib-btn" for="file-cni">📂 Choisir</label><input type="file" id="file-cni" name="doc_cni" accept=".pdf,.jpg,.jpeg,.png" onchange="markDocInline(this,'dib-cni','badge-cni','hint-cni')" required><span class="dib-filename" id="hint-cni"></span></div>
+            <div class="dib-row" id="dib-photo"><span class="dib-ico">📸</span><div class="dib-info"><strong>Photo identité 4×4 <span class="req">*</span></strong><span>Fond blanc · JPG/PNG</span></div><div class="dib-status" id="badge-photo">À joindre</div><label class="dib-btn" for="file-photo">📂 Choisir</label><input type="file" id="file-photo" name="doc_photo" accept=".jpg,.jpeg,.png" onchange="markDocInline(this,'dib-photo','badge-photo','hint-photo')" required><span class="dib-filename" id="hint-photo"></span></div>
+            <div class="dib-row" id="dib-sig"><span class="dib-ico">✍️</span><div class="dib-info"><strong>Signature manuscrite <span class="req">*</span></strong><span>Fond blanc · Lisible</span></div><div class="dib-status" id="badge-sig">À joindre</div><label class="dib-btn" for="file-sig">📂 Choisir</label><input type="file" id="file-sig" name="doc_sig" accept=".pdf,.jpg,.jpeg,.png" onchange="markDocInline(this,'dib-sig','badge-sig','hint-sig')" required><span class="dib-filename" id="hint-sig"></span></div>
+          </div>
+          <div class="rf-section-title" style="margin-top:1rem">👤 État civil</div>
+          <div class="rf-row"><div class="rf-group"><label>Nom(s) <span class="req">*</span></label><input type="text" name="nom" placeholder="Votre nom de famille" required></div><div class="rf-group"><label>Prénom(s) <span class="req">*</span></label><input type="text" name="prenom" placeholder="Votre prénom" required></div></div>
+          <div class="rf-row"><div class="rf-group"><label>Date de naissance <span class="req">*</span></label><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem">
+  <select name="ddn_jour" required style="padding:.8rem .6rem;border:1.5px solid rgba(21,101,192,.12);border-radius:var(--rs);font-family:var(--F2);font-size:.9rem;color:var(--text);background:var(--white);outline:none">
+    <option value="">Jour</option>
+  </select>
+  <select name="ddn_mois" required style="padding:.8rem .6rem;border:1.5px solid rgba(21,101,192,.12);border-radius:var(--rs);font-family:var(--F2);font-size:.9rem;color:var(--text);background:var(--white);outline:none">
+    <option value="">Mois</option>
+    <option value="01">Janvier</option>
+    <option value="02">Février</option>
+    <option value="03">Mars</option>
+    <option value="04">Avril</option>
+    <option value="05">Mai</option>
+    <option value="06">Juin</option>
+    <option value="07">Juillet</option>
+    <option value="08">Août</option>
+    <option value="09">Septembre</option>
+    <option value="10">Octobre</option>
+    <option value="11">Novembre</option>
+    <option value="12">Décembre</option>
+  </select>
+  <select name="ddn_annee" required style="padding:.8rem .6rem;border:1.5px solid rgba(21,101,192,.12);border-radius:var(--rs);font-family:var(--F2);font-size:.9rem;color:var(--text);background:var(--white);outline:none">
+    <option value="">Année</option>
+  </select>
+</div>
+</div><div class="rf-group"><label>Lieu de naissance <span class="req">*</span></label><input type="text" name="lieu_naiss" placeholder="Ville de naissance" required></div></div>
+          <div class="rf-row"><div class="rf-group"><label>Pays de naissance <span class="req">*</span></label><input type="text" name="pays_naiss" placeholder="ex: France" required></div><div class="rf-group"><label>DNI / NIE <span class="req">*</span></label><input type="text" name="dni" placeholder="ex: 12345678X ou X1234567Y" required></div></div>
+          <div class="rf-section-title">Adresse de résidence</div>
+          <div class="rf-row"><div class="rf-group"><label>Pays de résidence <span class="req">*</span></label><input type="text" name="pays_res" placeholder="ex: Espagne" required></div><div class="rf-group"><label>Province <span class="req">*</span></label><input type="text" name="province" placeholder="ex: Barcelona" required></div></div>
+          <div class="rf-row"><div class="rf-group"><label>Ville <span class="req">*</span></label><input type="text" name="ville" placeholder="ex: Barcelona" required></div><div class="rf-group"><label>Code postal <span class="req">*</span></label><input type="text" name="cp" placeholder="ex: 08001" required></div></div>
+          <div class="rf-group rf-full"><label>Adresse complète <span class="req">*</span></label><input type="text" name="adresse" placeholder="Numéro, rue, bâtiment, étage..." required></div>
+          <div class="rf-section-title">Contact</div>
+          <div class="rf-row"><div class="rf-group"><label>Email <span class="req">*</span></label><input type="email" name="email" placeholder="votre@email.com" required></div><div class="rf-group"><label>Téléphone <span class="req">*</span></label><input type="tel" name="tel" placeholder="+34 6XX XXX XXX" required></div></div>
+          <div class="rf-group rf-full"><label>Fax</label><input type="tel" name="fax" placeholder="Numéro de fax (optionnel)"></div>
+          <div class="rf-recap" id="rfRecap" style="display:none">
+            <div class="rfr-title">📋 Récapitulatif de votre demande</div>
+            <div class="rfr-row"><span>Licence sélectionnée</span><strong id="rfrLic">—</strong></div>
+            <div class="rfr-row"><span>Montant total</span><strong id="rfrPrix">—</strong></div>
+            <div class="rfr-row" id="rfrTr1Row"><span>Tranche 1 (avant établissement)</span><strong id="rfrTr1">—</strong></div>
+            <div class="rfr-row" id="rfrTr2Row"><span>Tranche 2 (après établissement)</span><strong id="rfrTr2">—</strong></div>
+          </div>
+          <div class="rf-group rf-full" style="margin-top:.5rem"><label class="rf-check-label"><input type="checkbox" required><span>Je certifie l'exactitude des informations fournies et j'accepte les <a href="#" class="rf-link">conditions générales</a> et la <a href="#" class="rf-link">politique de confidentialité</a>.</span></label></div>
+          <button type="submit" class="rf-submit" id="rfSubmit"><span id="rfBtnTxt">Soumettre ma demande</span><span class="rf-btn-arrow">→</span></button>
+          <div class="rf-success" id="rfSuccess" style="display:none"><div class="rfs-icon">✅</div><h4>Demande envoyée avec succès !</h4><p>Notre équipe traite votre dossier sous <strong>24h</strong>. Vous recevrez une confirmation par email avec les instructions de paiement.</p></div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══ TABLEAU DES RENDEZ-VOUS ═══ -->
+<section class="rdv-section" id="tarifs-rdv">
+  <div class="W">
+    <div class="sec-hd rv"><div class="stag">📅 Tarifs rendez-vous</div><h2 class="sh">Choisissez votre <span class="ac">formule</span></h2><p class="sdesc">Trois niveaux de rendez-vous adaptés à vos besoins. Réservez en ligne en quelques clics.</p></div>
+    <div class="rdv-grid">
+      <div class="rdv-card rv"><div class="rdv-head rdv-head--ord"><div class="rdv-head-icon">📋</div><h3>Ordinaire</h3><p>Rendez-vous standard accompagné</p></div><div class="rdv-body"><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>30 minutes</strong></div><div class="rdv-price">105 <span>€</span></div><button class="rdv-btn" onclick="bookRdv('Ordinaire','30 min','105€')">Réserver</button></div><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>1 heure</strong></div><div class="rdv-price">150 <span>€</span></div><button class="rdv-btn" onclick="bookRdv('Ordinaire','1 heure','150€')">Réserver</button></div><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>1h 30 minutes</strong></div><div class="rdv-price">200 <span>€</span></div><button class="rdv-btn" onclick="bookRdv('Ordinaire','1h30','200€')">Réserver</button></div><div class="rdv-row rdv-row--last"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>2 heures</strong></div><div class="rdv-price">300 <span>€</span></div><button class="rdv-btn" onclick="bookRdv('Ordinaire','2 heures','300€')">Réserver</button></div></div></div>
+      <div class="rdv-card rdv-card--featured rv"><div class="rdv-badge-top">⭐ Le plus choisi</div><div class="rdv-head rdv-head--priv"><div class="rdv-head-icon">🔒</div><h3>Privé</h3><p>Rendez-vous exclusif personnalisé</p></div><div class="rdv-body"><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>30 minutes</strong></div><div class="rdv-price rdv-price--feat">210 <span>€</span></div><button class="rdv-btn rdv-btn--feat" onclick="bookRdv('Privé','30 min','210€')">Réserver</button></div><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>1 heure</strong></div><div class="rdv-price rdv-price--feat">600 <span>€</span></div><button class="rdv-btn rdv-btn--feat" onclick="bookRdv('Privé','1 heure','600€')">Réserver</button></div><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>1h 30 minutes</strong></div><div class="rdv-price rdv-price--feat">400 <span>€</span></div><button class="rdv-btn rdv-btn--feat" onclick="bookRdv('Privé','1h30','400€')">Réserver</button></div><div class="rdv-row rdv-row--last"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>2 heures</strong></div><div class="rdv-price rdv-price--feat">800 <span>€</span></div><button class="rdv-btn rdv-btn--feat" onclick="bookRdv('Privé','2 heures','800€')">Réserver</button></div></div></div>
+      <div class="rdv-card rdv-card--premium rv"><div class="rdv-head rdv-head--prem"><div class="rdv-head-icon">💎</div><h3>Premium</h3><p>Accès VIP service haut de gamme</p></div><div class="rdv-body"><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>30 minutes</strong></div><div class="rdv-price rdv-price--prem">1 000 <span>€</span></div><button class="rdv-btn rdv-btn--prem" onclick="bookRdv('Premium','30 min','1000€')">Réserver</button></div><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>1 heure</strong></div><div class="rdv-price rdv-price--prem">1 200 <span>€</span></div><button class="rdv-btn rdv-btn--prem" onclick="bookRdv('Premium','1 heure','1200€')">Réserver</button></div><div class="rdv-row"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>1h 30 minutes</strong></div><div class="rdv-price rdv-price--prem">1 800 <span>€</span></div><button class="rdv-btn rdv-btn--prem" onclick="bookRdv('Premium','1h30','1800€')">Réserver</button></div><div class="rdv-row rdv-row--last"><div class="rdv-duration"><span class="rdv-dur-icon">⏱</span><strong>2 heures</strong></div><div class="rdv-price rdv-price--prem">2 000 <span>€</span></div><button class="rdv-btn rdv-btn--prem" onclick="bookRdv('Premium','2 heures','2000€')">Réserver</button></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALERIE DÉFILANTE ═══ -->
+<section class="gal">
+  <div class="gal-hd"><h2>Ils ont conduit l'<em>Europe entière</em></h2></div>
+  <div class="gal-strip"><div class="gal-track" id="galTrack">
+    <img src="https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1531498860502-7c67cf519b9e?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1476231682828-37e571bc172f?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1531498860502-7c67cf519b9e?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=500&q=80" alt=""><img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=500&q=80" alt="">
+  </div></div>
+</section>
+
+<!-- ═══ EXAMENS ═══ -->
+<section class="exam-section" id="examens">
+  <div class="W">
+    <div class="sec-hd rv"><div class="stag">🎯 Les Examens DGT</div><h2 class="sh">Tout savoir sur les <span class="ac">examens officiels</span></h2><p class="sdesc">Théorique, pratique, médical — chaque étape décryptée pour maximiser vos chances de réussite.</p></div>
+    <div class="exam-grid">
+      <div class="ec rv"><div class="ec-img"><img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=600&q=80" alt="Examen théorique"><div class="ec-type">Théorique</div></div><div class="ec-body"><h3>Examen Théorique (Teórico)</h3><p>30 questions QCM sur le code de la route espagnol. Panneaux, priorités, alcool, équipements. Maximum 3 fautes. Disponible en français, anglais, arabe sur demande.</p><div class="ec-stats"><div class="ec-st"><strong>30</strong><span>Questions</span></div><div class="ec-st"><strong>45 min</strong><span>Durée</span></div><div class="ec-st"><strong>3 max</strong><span>Erreurs tolérées</span></div></div></div></div>
+      <div class="ec rv"><div class="ec-img"><img src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&q=80" alt="Examen pratique"><div class="ec-type">Pratique</div></div><div class="ec-body"><h3>Examen Pratique (Práctico)</h3><p>Circuit en conditions réelles avec un examinateur DGT agréé. Évaluation de la maîtrise, des manœuvres et du respect du code. Voiture de l'auto-école partenaire fournie.</p><div class="ec-stats"><div class="ec-st"><strong>25–30</strong><span>Minutes</span></div><div class="ec-st"><strong>Immédiat</strong><span>Résultat</span></div><div class="ec-st"><strong>J+10</strong><span>Si échec</span></div></div></div></div>
+      <div class="ec rv"><div class="ec-img"><img src="https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=80" alt="Contrôle médical"><div class="ec-type">Médical CRC</div></div><div class="ec-body"><h3>Contrôle Médical Psychotechnique</h3><p>Obligatoire avant l'inscription DGT. Vérifie la vision, l'audition et les réflexes dans un centre CRC agréé. Résultat immédiat. Certificat valable 3 mois.</p><div class="ec-stats"><div class="ec-st"><strong>30 min</strong><span>Durée</span></div><div class="ec-st"><strong>~60 €</strong><span>Coût moyen</span></div><div class="ec-st"><strong>3 mois</strong><span>Validité</span></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PORTAIL DGT ═══ -->
+<section class="dgt-section" id="dgt">
+  <div class="W">
+    <div class="dgt-grid">
+      <div class="dgt-txt rv">
+        <div class="stag" style="background:rgba(66,165,245,.15);color:#90CAF9;border-color:rgba(66,165,245,.25)">🏛️ Portail Officiel DGT</div>
+        <h2>Naviguer sur la <em>Sede Electrónica</em> DGT</h2>
+        <p>La plateforme <strong>sedeapl.dgt.gob.es</strong> centralise toutes les démarches. Notre équipe vous guide pas à pas ou gère votre dossier complet si vous ne parlez pas espagnol.</p>
+        <div class="dgt-steps">
+          <div class="ds"><div class="dsn">1</div><p>Allez sur <strong>sedeapl.dgt.gob.es</strong> → Trámites → Conductores</p></div>
+          <div class="ds"><div class="dsn">2</div><p>Connectez-vous avec <strong>Cl@ve PIN, certificat numérique ou DNI-e</strong></p></div>
+          <div class="ds"><div class="dsn">3</div><p>Sélectionnez <strong>"Obtención primer permiso de conducción"</strong></p></div>
+          <div class="ds"><div class="dsn">4</div><p>Téléchargez vos documents (PDF/JPG &lt; 4 Mo chacun)</p></div>
+          <div class="ds"><div class="dsn">5</div><p>Payez la <strong>Tasa 790</strong> et réservez votre créneau théorique</p></div>
+          <div class="ds"><div class="dsn">6</div><p>Suivez l'avancement dans <strong>"Mis expedientes"</strong></p></div>
+        </div>
+        <a href="#contact" class="cta1" style="width:fit-content">Je veux être accompagné →</a>
+      </div>
+      <div class="dgt-vis rv">
+        <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=700&q=80" alt="Portail DGT en ligne" style="height:260px;object-fit:cover;border-radius:var(--r)">
+        <div class="dgt-badge"><strong>Sede Electrónica DGT</strong><span>sedeapl.dgt.gob.es</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem"><img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&q=80" alt="" style="border-radius:var(--rs);height:120px;width:100%;object-fit:cover"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&q=80" alt="" style="border-radius:var(--rs);height:120px;width:100%;object-fit:cover"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq-section" id="faq">
+  <div class="W">
+    <div class="sec-hd rv"><div class="stag">❓ FAQ</div><h2 class="sh">Questions <span class="ac">fréquentes</span></h2></div>
+    <div class="faq-inner" id="faqInner">
+      <div class="fq"><button class="fq-q">Peut-on vraiment tout faire en ligne sans se déplacer ? <div class="fq-arr">▾</div></button><div class="fq-a"><p>Presque tout. Seuls le <strong>contrôle médical CRC</strong> (obligatoire dans un centre physique agréé DGT) et les <strong>examens théorique et pratique</strong> nécessitent votre présence physique. Tout le reste — inscription, paiement taxe 790, réservation des créneaux, suivi du dossier — est 100% dématérialisé via la Sede Electrónica de la DGT.</p></div></div>
+      <div class="fq"><button class="fq-q">Je ne parle pas espagnol, puis-je m'inscrire quand même ? <div class="fq-arr">▾</div></button><div class="fq-a"><p>Oui. L'examen théorique est disponible en <strong>français, anglais, arabe</strong> dans toutes les Jefaturas. Pour les démarches administratives sur la plateforme DGT, notre équipe peut agir comme <strong>mandataire (representante)</strong> et tout gérer en votre nom. Nos conseillers parlent français, espagnol, anglais et arabe.</p></div></div>
+      <div class="fq"><button class="fq-q">Combien coûte réellement le permis B en Espagne en 2025 ? <div class="fq-arr">▾</div></button><div class="fq-a"><p>Le coût total varie entre <strong>900 et 1 400 €</strong> selon les séances nécessaires : taxe DGT 94,05 €, contrôle médical ~60 €, formation théorique 0–120 €, séances de conduite 450–900 € (15 à 25h).</p></div></div>
+      <div class="fq"><button class="fq-q">Mon permis français / belge / marocain est-il reconnu en Espagne ? <div class="fq-arr">▾</div></button><div class="fq-a"><p>Les permis <strong>UE</strong> sont reconnus automatiquement. Si vous devenez résident espagnol, vous devrez l'échanger sous 2 ans. Pour les permis <strong>hors UE</strong> (Maroc, Algérie, Tunisie…), une procédure de conversion est requise.</p></div></div>
+      <div class="fq"><button class="fq-q">Que se passe-t-il si je rate l'examen ? <div class="fq-arr">▾</div></button><div class="fq-a"><p>Examen <strong>théorique</strong> : re-passage sans délai minimum (attendre un créneau libre). Examen <strong>pratique</strong> : délai minimum de 10 jours. Nous offrons des <strong>sessions de préparation supplémentaires gratuites</strong> et gérons la nouvelle réservation.</p></div></div>
+      <div class="fq"><button class="fq-q">Ai-je besoin d'un NIE pour passer le permis en Espagne ? <div class="fq-arr">▾</div></button><div class="fq-a"><p>Oui, un <strong>NIE (Número de Identidad de Extranjero)</strong> est obligatoire pour les étrangers non-communautaires. Notre équipe peut vous orienter vers la procédure d'obtention du NIE en ligne via l'ambassade d'Espagne ou sur place à la Policía Nacional.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TÉMOIGNAGES ═══ -->
+<section class="testi-section">
+  <div class="W">
+    <div class="sec-hd rv"><div class="stag">💬 Avis clients</div><h2 class="sh">Ils ont obtenu leur permis <span class="ac">en ligne</span></h2></div>
+    <div class="testi-grid">
+      <div class="tc rv"><div class="tc-hd"><div class="tc-av">KA</div><div class="tc-info"><strong>Karim Amrani</strong><small>Marseille → Madrid</small><span class="tc-p">Permis B en ligne</span></div></div><div class="tc-stars">⭐⭐⭐⭐⭐</div><p>"Je ne parlais pas espagnol et je craignais la procédure DGT. DriveEspaña a tout géré à ma place : dossier, réservations, traductions. Permis obtenu en 6 semaines sans stress."</p></div>
+      <div class="tc rv"><div class="tc-hd"><div class="tc-av">SC</div><div class="tc-info"><strong>Sophie Chen</strong><small>Paris → Barcelone</small><span class="tc-p">Conversion FR → ES</span></div></div><div class="tc-stars">⭐⭐⭐⭐⭐</div><p>"Échange de mon permis français sans examen. La procédure en ligne était parfaitement guidée. Moins de 4 semaines du début à la carte physique dans ma boîte aux lettres."</p></div>
+      <div class="tc rv"><div class="tc-hd"><div class="tc-av">MB</div><div class="tc-info"><strong>Mohamed Benali</strong><small>Casablanca → Valence</small><span class="tc-p">Permis B · 1er passage</span></div></div><div class="tc-stars">⭐⭐⭐⭐⭐</div><p>"Les simulateurs d'examen sont très proches du vrai examen DGT. Réussi du 1er coup pour le théorique et le pratique. Équipe réactive et disponible en français et en arabe."</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VIDÉOS TÉMOIGNAGES ═══ -->
+<section class="vtesti-section">
+  <div class="W">
+    <div class="sec-hd rv">
+      <div class="stag" style="background:rgba(66,165,245,.12);color:#90CAF9;border-color:rgba(66,165,245,.22)">🎬 Témoignages vidéo</div>
+      <h2 class="sh" style="color:var(--white)">Ils témoignent <span style="color:var(--b200)">en vidéo</span></h2>
+      <p class="sdesc" style="color:rgba(255,255,255,.5)">Découvrez l'expérience de nos clients qui ont obtenu leur permis espagnol avec DriveEspaña.</p>
+    </div>
+    <div class="vtesti-grid">
+
+      <!-- VIDÉO 1 -->
+      <div class="vt-card rv" id="vtCard1">
+        <div class="vt-placeholder" id="vtPlaceholder1">
+          <div class="vt-placeholder-icon">
+            <div class="vt-play-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="vt-placeholder-text"><strong>Témoignage vidéo 1</strong>Vidéo bientôt disponible</div>
+          </div>
+        </div>
+        <div class="vt-video-wrap" id="vtVideoWrap1"></div>
+        <div class="vt-footer">
+          <div class="vt-avatar" id="vtAvatar1">?</div>
+          <div class="vt-meta"><strong id="vtName1">Nom du client</strong><small id="vtCity1">Ville → Espagne</small></div>
+          <div class="vt-stars" id="vtStars1">⭐⭐⭐⭐⭐</div>
+        </div>
+      </div>
+
+      <!-- VIDÉO 2 -->
+      <div class="vt-card rv" id="vtCard2">
+        <div class="vt-placeholder" id="vtPlaceholder2">
+          <div class="vt-placeholder-icon">
+            <div class="vt-play-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+            <div class="vt-placeholder-text"><strong>Témoignage vidéo 2</strong>Vidéo bientôt disponible</div>
+          </div>
+        </div>
+        <div class="vt-video-wrap" id="vtVideoWrap2"></div>
+        <div class="vt-footer">
+          <div class="vt-avatar" id="vtAvatar2">?</div>
+          <div class="vt-meta"><strong id="vtName2">Nom du client</strong><small id="vtCity2">Ville → Espagne</small></div>
+          <div class="vt-stars" id="vtStars2">⭐⭐⭐⭐⭐</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section class="contact-section" id="contact">
+  <div class="W">
+    <div class="contact-grid">
+      <div class="ci-inf rv">
+        <div class="stag">📩 Contactez-nous</div>
+        <h2 class="sh">Commencez <span class="ac">dès aujourd'hui</span></h2>
+        <p>Un conseiller francophone vous rappelle sous 2h. Nous parlons français, espagnol, anglais et arabe.</p>
+        <div class="ci-dets">
+          <div class="cir"><div class="cico">📞</div><div><strong>Téléphone</strong><a href="tel:+34912345678">+34 912 345 678</a></div></div>
+          <div class="cir"><div class="cico">✉️</div><div><strong>Email</strong><a href="mailto:contact@driveespana.com">contact@driveespana.com</a></div></div>
+          <div class="cir"><div class="cico">💬</div><div><strong>WhatsApp / Telegram</strong><span>+34 6XX XXX XXX · Réponse &lt; 30 min</span></div></div>
+          <div class="cir"><div class="cico">🕐</div><div><strong>Horaires</strong><span>Lun–Sam 8h30–20h · Dim 10h–14h</span></div></div>
+        </div>
+        <div class="ci-img"><img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=700&q=80" alt="Équipe DriveEspaña"></div>
+      </div>
+      <div class="form-box rv">
+        <h3>Demande de renseignement</h3>
+        <p>Consultation gratuite et sans engagement.</p>
+        <form id="contactForm" onsubmit="handleContactForm(event)">
+          <div class="fg"><label>Nom complet *</label><input type="text" id="cf-nom" placeholder="Votre prénom et nom" required></div>
+          <div class="frow"><div class="fg"><label>Email *</label><input type="email" id="cf-email" placeholder="email@exemple.com" required></div><div class="fg"><label>Téléphone</label><input type="tel" id="cf-tel" placeholder="+33 6 XX XX XX XX"></div></div>
+          <div class="fg"><label>Service souhaité</label><select id="cf-service"><option>-- Choisir --</option><option>Permis B en ligne (Espagne)</option><option>Permis A — Moto</option><option>Conversion permis étranger → Espagnol</option><option>Échange permis UE (déjà en Espagne)</option><option>Aide dossier NIE</option></select></div>
+          <div class="fg"><label>Message *</label><textarea id="cf-message" placeholder="Décrivez votre situation, votre pays de résidence, vos disponibilités..." required></textarea></div>
+          <div class="fg" style="flex-direction:row;align-items:flex-start;gap:.55rem"><input type="checkbox" id="rgpd" required style="margin-top:3px;accent-color:var(--b500)"><label for="rgpd" style="font-size:.8rem;color:var(--muted);cursor:pointer">J'accepte la <a href="#" style="color:var(--b500)">politique de confidentialité</a> et les conditions générales.</label></div>
+          <button type="submit" class="fsub">Envoyer ma demande <span class="farr">→</span></button>
+        </form>
+        <div class="f-ok" id="fok">✅ Votre demande a été envoyée ! Un conseiller vous contacte sous 2h.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="footer">
+  <div class="ft"><div class="W fg-grid">
+    <div class="fg-brand"><div class="flogo"><div class="logo-mark">🚦</div><span class="logo-name">DGT<em>España</em></span></div><p>Votre partenaire pour l'obtention du permis espagnol en ligne. Accompagnement francophone, démarches DGT, garantie de réussite.</p><div class="fsocs"><a href="#" class="fsoc">📘</a><a href="#" class="fsoc">📸</a><a href="#" class="fsoc">▶️</a><a href="#" class="fsoc">💬</a></div></div>
+    <div class="fc"><h4>Procédure</h4><ul><li><a href="#procedure">Étapes en ligne</a></li><li><a href="#procedure">Documents requis</a></li><li><a href="#examens">Examen théorique</a></li><li><a href="#examens">Examen pratique</a></li><li><a href="#dgt">Portail DGT</a></li></ul></div>
+    <div class="fc"><h4>Nos Services</h4><ul><li><a href="#tarifs-rdv">Rendez-vous</a></li><li><a href="#procedure">Permis B en ligne</a></li><li><a href="#procedure">Permis A Moto</a></li><li><a href="#procedure">Permis C/D Pro</a></li><li><a href="#procedure">Aide NIE</a></li></ul></div>
+    <div class="fc"><h4>Infos</h4><ul><li><a href="#faq">FAQ</a></li><li><a href="#">Blog conduite Espagne</a></li><li><a href="#">Mentions légales</a></li><li><a href="#">Politique RGPD</a></li><li><a href="#contact">Contact</a></li></ul></div>
+  </div></div>
+  <div class="fb"><div class="W"><span>© 2025 DriveEspaña — Tous droits réservés</span><span>Agréé DGT · Directive EU 2006/126/CE · SIRET 123 456 789</span></div></div>
+</footer>
+
+<!-- ═══ MODAL INSCRIPTION ═══ -->
+<div class="mbg" id="mbg" onclick="closeModal()"><div class="mbox" onclick="event.stopPropagation()"><button class="mclose" onclick="closeModal()">✕</button><div id="mbody"></div></div></div>
+
+<!-- SCROLL TOP -->
+<button class="stb" id="stb" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- MODAL RENDEZ-VOUS -->
+<div class="rdv-modal-bg" id="rdvModalBg" onclick="if(event.target===this)closeRdvModal()"><div class="rdv-modal-box"><button class="rdv-mclose" onclick="closeRdvModal()">✕</button><div id="rdvModalContent"></div></div></div>
+
+<script>
+/* ════════════════════════════════════════════
+   ⚙️  CONFIGURATION
+════════════════════════════════════════════ */
+const WA_NUMBER = "22962003165"; // ← REMPLACEZ PAR VOTRE NUMÉRO WHATSAPP
+function sendToWhatsApp(message) {
+  const encoded = encodeURIComponent(message);
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+}
+
+/* ── Hero Slider ── */
+const slides=document.querySelectorAll('.hslide'),dotsWrap=document.getElementById('hDots'),caption=document.getElementById('hCaption');
+const captions=['👩 Permis espagnol obtenu avec DriveEspaña','🚗 Leçon de conduite avec moniteur certifié','🪪 Carte de permis espagnol reçue','🇪🇸 Conduite en toute liberté en Espagne','💻 Inscription DGT 100% en ligne'];
+let cur=0,timer;
+slides.forEach((_,i)=>{ const d=document.createElement('button'); d.className='hdot'+(i===0?' on':''); d.addEventListener('click',()=>goTo(i)); dotsWrap.appendChild(d); });
+function goTo(n){ slides[cur].classList.remove('active'); dotsWrap.children[cur].classList.remove('on'); cur=(n+slides.length)%slides.length; slides[cur].classList.add('active'); dotsWrap.children[cur].classList.add('on'); caption.classList.remove('show'); setTimeout(()=>{ caption.textContent=captions[cur]; caption.classList.add('show'); },400); resetTimer(); }
+function resetTimer(){ clearInterval(timer); timer=setInterval(()=>goTo(cur+1),5500); }
+document.getElementById('hNext').addEventListener('click',()=>goTo(cur+1));
+document.getElementById('hPrev').addEventListener('click',()=>goTo(cur-1));
+resetTimer();
+
+/* ── Navbar ── */
+const nav=document.getElementById('nav'),stb=document.getElementById('stb');
+window.addEventListener('scroll',()=>{ nav.classList.toggle('stuck',scrollY>60); stb.classList.toggle('on',scrollY>300); });
+
+/* ── Burger ── */
+document.getElementById('burg').addEventListener('click',()=>document.getElementById('nmenu').classList.toggle('on'));
+document.querySelectorAll('#nmenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('nmenu').classList.remove('on')));
+
+/* ── Reveal on scroll ── */
+const revEls=document.querySelectorAll('.rv');
+const ro=new IntersectionObserver(entries=>{ entries.forEach(e=>{ if(e.isIntersecting){ const d=parseInt(e.target.dataset.d||0); setTimeout(()=>e.target.classList.add('vis'),d); ro.unobserve(e.target); } }); },{threshold:0.1});
+revEls.forEach((el,i)=>{ el.dataset.d=(i%5)*70; ro.observe(el); });
+
+/* ── FAQ ── */
+document.querySelectorAll('.fq-q').forEach(btn=>{ btn.addEventListener('click',()=>{ const item=btn.parentElement; const wasOpen=item.classList.contains('open'); document.querySelectorAll('.fq').forEach(i=>i.classList.remove('open')); if(!wasOpen) item.classList.add('open'); }); });
+
+/* ── Galerie pause ── */
+const gt=document.getElementById('galTrack');
+if(gt){ gt.addEventListener('mouseenter',()=>gt.style.animationPlayState='paused'); gt.addEventListener('mouseleave',()=>gt.style.animationPlayState='running'); }
+
+/* ── Modal ── */
+function closeModal(){ document.getElementById('mbg').classList.remove('on'); document.body.style.overflow=''; }
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); closeRdvModal(); } });
+
+/* ── Smooth scroll ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',e=>{ const t=document.querySelector(a.getAttribute('href')); if(t){ e.preventDefault(); window.scrollTo({top:t.getBoundingClientRect().top+scrollY-78,behavior:'smooth'}); } }); });
+
+/* ════════════════════════════════════════════
+   📱 FORMULAIRE CONTACT → WHATSAPP
+════════════════════════════════════════════ */
+function handleContactForm(e){
+  e.preventDefault();
+  const nom=document.getElementById('cf-nom').value.trim(),email=document.getElementById('cf-email').value.trim(),tel=document.getElementById('cf-tel').value.trim(),service=document.getElementById('cf-service').value,message=document.getElementById('cf-message').value.trim();
+  sendToWhatsApp(`🚦 *DriveEspaña — Nouvelle demande de renseignement*\n\n👤 *Nom :* ${nom}\n📧 *Email :* ${email}\n📞 *Téléphone :* ${tel||'Non renseigné'}\n🎯 *Service souhaité :* ${service}\n\n💬 *Message :*\n${message}\n\n---\n_Envoyé depuis le site DriveEspaña_`);
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('fok').style.display='block';
+}
+
+/* ── Marquage upload docs ── */
+function markDocInline(input,rowId,badgeId,hintId){
+  if(input.files&&input.files[0]){ const f=input.files[0]; const name=f.name.length>18?f.name.substring(0,15)+'…':f.name; document.getElementById(badgeId).textContent='✓ Ajouté'; document.getElementById(hintId).textContent=name; document.getElementById(rowId).classList.add('done'); }
+}
+
+/* ════════════════════════════════════════════
+   📱 FORMULAIRE ENREGISTREMENT → WHATSAPP
+════════════════════════════════════════════ */
+(function(){
+  const licences={AM:{price:175,tranche:1,label:"Licence AM — Cyclomoteur",ico:"🛵"},A1:{price:205.60,tranche:1,label:"Licence A1 — Moto légère",ico:"🏍️"},A2:{price:198,tranche:1,label:"Licence A2 — Moto intermédiaire",ico:"🏍️"},B:{price:660,tranche:2,label:"Licence B — Voiture",ico:"🚗"},B1:{price:360,tranche:2,label:"Licence B1 — Quadricycle",ico:"🚙"},C:{price:670,tranche:2,label:"Licence C — Poids lourd",ico:"🚛"},CE:{price:780.20,tranche:2,label:"Licence C+E — PL + remorque",ico:"🚚"},D:{price:820,tranche:2,label:"Licence D — Bus / Car",ico:"🚌"},CAP:{price:825.91,tranche:2,label:"Licence CAP — Transport professionnel",ico:"📋"},DUP:{price:560,tranche:2,label:"Duplicata moto + voiture",ico:"🔄"}};
+  let selectedLic=null;
+  document.getElementById('licDropdown').addEventListener('change', function(){
+  if(!this.value){ document.getElementById('licNotif').style.display='none'; selectedLic=null; updateRecap(); return; }
+  const [id] = this.value.split('|');
+  selectedLic = id;
+  showLicNotif(id);
+  updateRecap();
+});
+  function fmt(n){ return n.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2})+' €'; }
+  function showLicNotif(id){ const lic=licences[id]; const notif=document.getElementById('licNotif'); document.getElementById('lnIco').textContent=lic.ico; document.getElementById('lnLabel').textContent=lic.label+' sélectionnée'; document.getElementById('lnTotal').textContent=fmt(lic.price); let html=''; if(lic.tranche===1){ html=`<div class="ln-tranche single"><label>Paiement en une seule tranche — avant établissement</label><strong>${fmt(lic.price)}</strong><small>Montant intégral exigible à la soumission du dossier</small></div>`; } else { const half=lic.price/2; html=`<div class="ln-tranche"><label>Tranche 1 — Avant établissement</label><strong>${fmt(half)}</strong><small>À régler lors de la soumission du dossier</small></div><div class="ln-tranche"><label>Tranche 2 — Après établissement</label><strong>${fmt(half)}</strong><small>À régler à la réception de la licence</small></div>`; } document.getElementById('lnTranches').innerHTML=html; notif.style.display='block'; }
+  function updateRecap(){ if(!selectedLic) return; const lic=licences[selectedLic]; const recap=document.getElementById('rfRecap'); recap.style.display='flex'; document.getElementById('rfrLic').textContent=lic.label; document.getElementById('rfrPrix').textContent=fmt(lic.price); const tr1Row=document.getElementById('rfrTr1Row'),tr2Row=document.getElementById('rfrTr2Row'); if(lic.tranche===1){ document.getElementById('rfrTr1').textContent=fmt(lic.price)+' (paiement unique)'; tr1Row.style.display='flex'; tr2Row.style.display='none'; } else { document.getElementById('rfrTr1').textContent=fmt(lic.price/2); document.getElementById('rfrTr2').textContent=fmt(lic.price/2); tr1Row.style.display='flex'; tr2Row.style.display='flex'; } }
+  window.submitReg=function(e){
+    e.preventDefault();
+    if(!selectedLic){ alert('⚠️ Veuillez sélectionner une licence avant de soumettre.'); document.getElementById('card-licence').scrollIntoView({behavior:'smooth',block:'center'}); return; }
+    const lic=licences[selectedLic],form=e.target,get=name=>form.querySelector(`[name="${name}"]`)?.value?.trim()||'Non renseigné';
+const jour=form.querySelector('[name="ddn_jour"]')?.value||'';
+const mois=form.querySelector('[name="ddn_mois"]')?.value||'';
+const annee=form.querySelector('[name="ddn_annee"]')?.value||'';
+const ddn=(jour&&mois&&annee)?`${jour}/${mois}/${annee}`:'Non renseigné';
+    const docCni=document.getElementById('file-cni').files[0]?.name||'Non joint',docPhoto=document.getElementById('file-photo').files[0]?.name||'Non joint',docSig=document.getElementById('file-sig').files[0]?.name||'Non joint';
+    let paiementInfo=lic.tranche===1?`💳 *Paiement :* En une seule tranche — ${fmt(lic.price)}`:`💳 *Tranche 1 (avant établissement) :* ${fmt(lic.price/2)}\n💳 *Tranche 2 (après établissement) :* ${fmt(lic.price/2)}`;
+    const waMsg=`🚦 *DriveEspaña — Nouvelle demande d'enregistrement*\n\n━━━━━━━━━━━━━━━━━\n🚗 *LICENCE DEMANDÉE*\n━━━━━━━━━━━━━━━━━\n${lic.ico} *Type :* ${lic.label}\n💰 *Montant total :* ${fmt(lic.price)}\n${paiementInfo}\n\n━━━━━━━━━━━━━━━━━\n👤 *ÉTAT CIVIL*\n━━━━━━━━━━━━━━━━━\n*Nom :* ${get('nom')}\n*Prénom :* ${get('prenom')}\n*Date de naissance :* ${ddn}\n*Lieu de naissance :* ${get('lieu_naiss')}\n*Pays de naissance :* ${get('pays_naiss')}\n*DNI / NIE :* ${get('dni')}\n\n━━━━━━━━━━━━━━━━━\n🏠 *ADRESSE*\n━━━━━━━━━━━━━━━━━\n*Pays :* ${get('pays_res')}\n*Province :* ${get('province')}\n*Ville :* ${get('ville')} — CP ${get('cp')}\n*Adresse :* ${get('adresse')}\n\n━━━━━━━━━━━━━━━━━\n📞 *CONTACT*\n━━━━━━━━━━━━━━━━━\n*Email :* ${get('email')}\n*Téléphone :* ${get('tel')}\n*Fax :* ${get('fax')}\n\n━━━━━━━━━━━━━━━━━\n📎 *DOCUMENTS JOINTS*\n━━━━━━━━━━━━━━━━━\n🪪 *CNI / Passeport :* ${docCni}\n📸 *Photo identité :* ${docPhoto}\n✍️ *Signature :* ${docSig}\n\n---\n_Envoyé depuis le formulaire DriveEspaña_`;
+
+    // ── Sauvegarde dans localStorage pour le dashboard ──
+const inscription = {
+  nom:        get('nom'),
+  prenom:     get('prenom'),
+  ddn:        ddn,
+  lieu_naiss: get('lieu_naiss'),
+  pays_naiss: get('pays_naiss'),
+  dni:        get('dni'),
+  pays_res:   get('pays_res'),
+  province:   get('province'),
+  ville:      get('ville'),
+  cp:         get('cp'),
+  adresse:    get('adresse'),
+  email:      get('email'),
+  tel:        get('tel'),
+  fax:        get('fax'),
+  licence:    selectedLic,
+  licenceLabel: lic.label,
+  prix:       lic.price,
+  tranche1:   lic.tranche === 1 ? lic.price : lic.price / 2,
+  tranche2:   lic.tranche === 2 ? lic.price / 2 : null,
+  doc_cni:    document.getElementById('file-cni').files[0]?.name || '',
+  doc_photo:  document.getElementById('file-photo').files[0]?.name || '',
+  doc_sig:    document.getElementById('file-sig').files[0]?.name || '',
+  status:     'nouveau',
+  date:       new Date().toISOString()
+};
+localStorage.setItem('dgt_new_inscription', JSON.stringify(inscription));
+    const btn=document.getElementById('rfSubmit'); btn.disabled=true; document.getElementById('rfBtnTxt').textContent='Ouverture WhatsApp…';
+    setTimeout(()=>{ sendToWhatsApp(waMsg); e.target.style.display='none'; document.getElementById('rfSuccess').style.display='block'; },600);
+  };
+})();
+
+/* ════════════════════════════════════════════
+   📱 MODAL RENDEZ-VOUS → WHATSAPP
+════════════════════════════════════════════ */
+function bookRdv(type,duree,prix){
+  document.getElementById('rdvModalContent').innerHTML=`<div style="text-align:center;margin-bottom:1.5rem"><div style="font-size:2.5rem;margin-bottom:.4rem">📅</div><h2 style="font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:#060E1F;margin-bottom:.2rem">Rendez-vous ${type}</h2><p style="color:#5A6A85;font-size:.85rem">${duree} · <strong style="color:#1565C0">${prix}</strong></p></div><div style="display:flex;flex-direction:column;gap:.9rem"><input id="rdv-nom" type="text" placeholder="Nom complet *" style="padding:.8rem 1rem;border:1.5px solid rgba(21,101,192,.15);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none"><input id="rdv-email" type="email" placeholder="Email *" style="padding:.8rem 1rem;border:1.5px solid rgba(21,101,192,.15);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none"><input id="rdv-tel" type="tel" placeholder="Téléphone *" style="padding:.8rem 1rem;border:1.5px solid rgba(21,101,192,.15);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.9rem;outline:none"><button onclick="rdvOK('${type}','${duree}','${prix}')" style="background:#1565C0;color:#fff;border:none;padding:.9rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-size:.92rem;font-weight:700;cursor:pointer">Confirmer via WhatsApp →</button></div>`;
+  document.getElementById('rdvModalBg').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function rdvOK(type,duree,prix){
+  const nom=document.getElementById('rdv-nom')?.value?.trim()||'',email=document.getElementById('rdv-email')?.value?.trim()||'',tel=document.getElementById('rdv-tel')?.value?.trim()||'';
+  if(!nom||!email||!tel){ alert('⚠️ Veuillez remplir tous les champs.'); return; }
+
+  // ── Sauvegarde RDV pour le dashboard ──
+localStorage.setItem('dgt_new_rdv', JSON.stringify({
+  nom:   nom,
+  email: email,
+  tel:   tel,
+  type:  type,
+  duree: duree,
+  prix:  prix,
+  date:  new Date().toISOString()
+}));
+  sendToWhatsApp(`📅 *DriveEspaña — Réservation de rendez-vous*\n\n🏷️ *Formule :* ${type}\n⏱️ *Durée :* ${duree}\n💰 *Tarif :* ${prix}\n\n👤 *Nom :* ${nom}\n📧 *Email :* ${email}\n📞 *Téléphone :* ${tel}\n\n---\n_Envoyé depuis le site DriveEspaña_`);
+  document.getElementById('rdvModalContent').innerHTML=`<div style="text-align:center;padding:2rem 0"><div style="font-size:4rem;margin-bottom:.8rem">✅</div><h2 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#060E1F;margin-bottom:.5rem">WhatsApp ouvert !</h2><p style="color:#5A6A85;font-size:.88rem;line-height:1.7">Votre demande est prête dans WhatsApp.<br>Appuyez sur <strong>Envoyer</strong> pour confirmer votre réservation.</p><button onclick="closeRdvModal()" style="margin-top:1.5rem;background:#1565C0;color:#fff;border:none;padding:.8rem 2rem;border-radius:50px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;font-size:.9rem">Fermer</button></div>`;
+}
+function closeRdvModal(){ document.getElementById('rdvModalBg').classList.remove('on'); document.body.style.overflow=''; }
+</script>
+
+<!-- ═══════════════════════════════════════════════════════
+     ✅ SYNC VIDÉOS DEPUIS ADMIN
+     Lit les vidéos déposées dans le dashboard (admin.html)
+     et les affiche automatiquement dans la section témoignages
+════════════════════════════════════════════════════════ -->
+<script>
+(function syncVideosFromAdmin(){
+  try{
+    /* 1. Lire la liste des vidéos sauvegardées par le dashboard */
+    const raw = localStorage.getItem('dgt_videos');
+    if(!raw) return;
+    const vids = JSON.parse(raw);
+    if(!Array.isArray(vids)) return;
+
+    vids.forEach((v, i) => {
+      const slot = i + 1;
+      if(slot > 2) return; // index.html a 2 emplacements
+
+      /* 2. Récupérer le contenu base64 depuis localStorage */
+      const base64 = v.dataKey ? localStorage.getItem(v.dataKey) : null;
+      if(!base64) return;
+
+      /* 3. Convertir base64 → Blob → ObjectURL lisible par <video> */
+      let blobUrl;
+      try{
+        const byteString = atob(base64.split(',')[1]);
+        const mimeType   = v.mimeType || base64.match(/data:([^;]+)/)?.[1] || 'video/mp4';
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for(let j = 0; j < byteString.length; j++) ia[j] = byteString.charCodeAt(j);
+        const blob = new Blob([ab], {type: mimeType});
+        blobUrl = URL.createObjectURL(blob);
+      }catch(convertErr){
+        console.warn('[DriveEspaña] Erreur conversion vidéo slot ' + slot, convertErr);
+        return;
+      }
+
+      /* 4. Injecter la vidéo dans la carte */
+      const wrapEl = document.getElementById('vtVideoWrap' + slot);
+      if(wrapEl){
+        wrapEl.innerHTML = '<video src="' + blobUrl + '" controls style="width:100%;height:100%;object-fit:contain;background:#000;display:block"></video>';
+        wrapEl.style.display = 'block';
+      }
+
+      /* 5. Masquer le placeholder "Vidéo bientôt disponible" */
+      const ph = document.getElementById('vtPlaceholder' + slot);
+      if(ph) ph.style.display = 'none';
+
+      /* 6. Marquer la carte comme active */
+      const card = document.getElementById('vtCard' + slot);
+      if(card) card.classList.add('has-video');
+
+      /* 7. Mettre à jour les métadonnées (nom, ville, avatar) */
+      if(v.name){
+        const nameEl = document.getElementById('vtName'   + slot);
+        const cityEl = document.getElementById('vtCity'   + slot);
+        const avEl   = document.getElementById('vtAvatar' + slot);
+        if(nameEl) nameEl.textContent = v.name;
+        if(cityEl) cityEl.textContent = v.city || '';
+        if(avEl)   avEl.textContent   = v.name.split(' ')
+                                               .map(w => w[0] || '')
+                                               .join('')
+                                               .substring(0, 2)
+                                               .toUpperCase() || '?';
+      }
+    });
+
+  }catch(err){
+    console.warn('[DriveEspaña] Erreur chargement vidéos admin:', err);
+  }
+})();
+
+(function(){
+  // Remplir les jours
+  const jourSel = document.querySelector('[name="ddn_jour"]');
+  for(let j = 1; j <= 31; j++){
+    const o = document.createElement('option');
+    o.value = String(j).padStart(2,'0');
+    o.textContent = String(j).padStart(2,'0');
+    jourSel.appendChild(o);
+  }
+
+  // Remplir les années (de 2010 à 1940)
+  const anneeSel = document.querySelector('[name="ddn_annee"]');
+  for(let a = 2010; a >= 1940; a--){
+    const o = document.createElement('option');
+    o.value = a;
+    o.textContent = a;
+    anneeSel.appendChild(o);
+  }
+})();
+</script>
+
+</body> 
+</html>
