@@ -855,11 +855,13 @@ function viewInscription(i){
       <div class="detail-item"><label>Fax</label><span>${i.fax||'—'}</span></div>
       <div class="detail-item"><label>Statut actuel</label><span>${statusBadge(i.status)}</span></div>
     </div>
-    <div class="detail-divider">Documents</div>
+   <div class="detail-divider">Documents</div>
+    <div style="display:flex;flex-direction:column;gap:.7rem;margin-bottom:.8rem">
+      ${docRow('🪪', 'CNI / Passeport',    i.doc_cni,   i.doc_cni_data)}
+      ${docRow('📸', 'Photo identité 4×4', i.doc_photo, i.doc_photo_data)}
+      ${docRow('✍️', 'Signature manuscrite',i.doc_sig,  i.doc_sig_data)}
+    </div>
     <div class="detail-grid">
-      <div class="detail-item"><label>CNI/Passeport</label><span>${i.doc_cni||'Non joint'}</span></div>
-      <div class="detail-item"><label>Photo identité</label><span>${i.doc_photo||'Non joint'}</span></div>
-      <div class="detail-item"><label>Signature</label><span>${i.doc_sig||'Non joint'}</span></div>
       <div class="detail-item"><label>Date inscription</label><span>${fmtDate(i.date)}</span></div>
     </div>`;
   document.getElementById('modalDetailEdit').onclick = ()=>{ closeModal('modalDetail'); openEditStatus(i); };
@@ -1273,6 +1275,56 @@ function deleteContact(idx){
   renderContacts();
   showToast('🗑️ Contact supprimé');
 }
+
+
+
+function docRow(ico, label, filename, data){
+  if (!filename) {
+    return `<div style="display:flex;align-items:center;gap:.75rem;padding:.6rem 1rem;background:var(--off);border-radius:var(--rs);border:1.5px solid var(--border)">
+      <span style="font-size:1rem;opacity:.4">${ico}</span>
+      <div style="flex:1"><strong style="font-size:.82rem;color:var(--muted)">${label}</strong>
+      <span style="display:block;font-size:.72rem;color:var(--muted)">Non joint</span></div>
+    </div>`;
+  }
+
+  const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(filename);
+  const previewHtml = (data && isImage)
+    ? `<img src="${data}" alt="${label}" style="max-width:100%;max-height:180px;border-radius:var(--rs);margin-top:.6rem;display:block">`
+    : '';
+
+  const dlBtn = data
+    ? `<button onclick="downloadDoc('${filename}','${data}')"
+         style="display:inline-flex;align-items:center;gap:.3rem;background:var(--b500);color:#fff;
+                border:none;padding:.35rem .85rem;border-radius:50px;font-size:.73rem;
+                font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;transition:all .2s"
+         onmouseover="this.style.background='var(--b300)'" onmouseout="this.style.background='var(--b500)'">
+         ⬇️ Télécharger
+       </button>`
+    : `<span style="font-size:.72rem;color:var(--orange);font-weight:600">⚠️ Données non disponibles</span>`;
+
+  return `<div style="background:var(--off);border-radius:var(--rs);border:1.5px solid rgba(21,101,192,.12);padding:.7rem 1rem">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <span style="font-size:1rem">${ico}</span>
+      <div style="flex:1">
+        <strong style="font-size:.83rem;color:var(--dark);display:block">${label}</strong>
+        <span style="font-size:.72rem;color:var(--muted)">${filename}</span>
+      </div>
+      ${dlBtn}
+    </div>
+    ${previewHtml}
+  </div>`;
+}
+
+function downloadDoc(filename, dataUrl){
+  if (!dataUrl) { alert('Fichier non disponible.'); return; }
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 
 /* ════════════════════════════════════════
    SEARCH
